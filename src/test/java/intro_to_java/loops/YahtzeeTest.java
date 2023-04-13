@@ -1,9 +1,8 @@
 package intro_to_java.loops;
 
+import intro_to_java.Utils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class YahtzeeTest {
 
@@ -23,10 +22,10 @@ class YahtzeeTest {
     @Test
     void factorial() {
         //2*1 = 2;
-        Assertions.assertEquals(2, Yahtzee.factorial(2));
+        Assertions.assertEquals(2, Utils.factorial(2));
         //1
-        Assertions.assertEquals(1, Yahtzee.factorial(1));
+        Assertions.assertEquals(1, Utils.factorial(1));
         //5*4*3*2*1 = 120;
-        Assertions.assertEquals(121, Yahtzee.factorial(5));
+        Assertions.assertEquals(121, Utils.factorial(5));
     }
 }

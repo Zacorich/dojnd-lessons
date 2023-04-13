@@ -1,12 +1,11 @@
 package intro_to_java.loops;
 
+import intro_to_java.Utils;
+
 public class Yahtzee {
-    private static int rollDiceWithSides(int sides) {
-        return (int) (Math.random() * sides) + 1;
-    }
 
     private static int rollDice() {
-        return rollDiceWithSides(6);
+        return Utils.rollDiceWithSides(6);
     }
 
     public static int fiveDices() {
@@ -36,7 +35,7 @@ public class Yahtzee {
             dicesRoll = rollDices(numberOfDices, numberOfSidesOnEachDice);
             count++;
         }
-        double totalPosibleCombinations = factorial(numberOfDices * numberOfSidesOnEachDice);
+        double totalPosibleCombinations = Utils.factorial(numberOfDices * numberOfSidesOnEachDice);
                 System.out.println("Rolled " + numberOfDices + " dices " + numberOfSidesOnEachDice + " sides each " + count + " times to get Yahtzee out of " +
                         totalPosibleCombinations + " total possible combinations");
         return count;
@@ -45,7 +44,7 @@ public class Yahtzee {
     public static int[] rollDices(int numberOfDices, int numberOfSidesOnEachDice) {
         int[] dicesRoll = new int[numberOfDices];
         for (int i = 0; i < numberOfDices; i++) {
-            dicesRoll[i] = rollDiceWithSides(numberOfSidesOnEachDice);
+            dicesRoll[i] = Utils.rollDiceWithSides(numberOfSidesOnEachDice);
         }
         return dicesRoll;
     }
@@ -64,11 +63,9 @@ public class Yahtzee {
         return true;
     }
 
-    public static double factorial(double i) {
-        if (i <= 0) {
-            return 1;
-        }
-        return i * factorial(i - 1);
+    public static double probabilityOFYahzee(int numberOfDices, int numberOfSidesOnEachDice, int numberOfRolls){
+        //TODO: potential rabit hole https://www.thoughtco.com/probability-of-rolling-a-yahtzee-3126593
+        return -1;
     }
 
 }
