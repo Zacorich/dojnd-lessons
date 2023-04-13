@@ -11,4 +11,11 @@ public class Utils {
         }
         return i * factorial(i - 1);
     }
+
+    public static boolean randomBoolean(){
+        if ((int) (Math.random() * 2) == 0) {
+            return true;
+        }
+        return false;
+    }
 }

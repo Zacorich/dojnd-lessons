@@ -16,6 +16,7 @@ public class LoopsIterations {
 
     /**
      * Print even numbers from lowerLimit to upperLimit using loops increments
+     *
      * @param lowerLimit limit from with to print even numbers(must be an even number)
      * @param upperLimit limit to witch to print even numbers(must be an even number)
      * @return even numbers from 0 to N
@@ -65,26 +66,24 @@ public class LoopsIterations {
      * @return random true or false value
      */
     public static boolean checkWifi() {
-        if ((int) (Math.random() * 2) == 0) {
-            return true;
-        }
-        return false;
+        return Utils.randomBoolean();
     }
 
     /**
      * Rolls a dice till you get a 6  then you win
      * but if you get a 3 you loose
+     *
      * @return true if someone won
      */
-    public static boolean rollASix(){
+    public static boolean rollASix() {
         int roll = Utils.rollDiceWithSides(6);
-        while(roll != 6){
-            if(roll == 3){
+        while (roll != 6) {
+            if (roll == 3) {
                 break;
             }
             roll = Utils.rollDiceWithSides(6);
         }
-        if(roll == 3){
+        if (roll == 3) {
             return false;
         }
 
@@ -92,10 +91,44 @@ public class LoopsIterations {
     }
 
     /**
-     *
-     * @return amount of money I end up with
+     * If you keep wining you keep same bet amount and if you loose you double the bet with each loss
+     * @param startAmount  money amount you start betting with
+     * @param targetAmount money amount you consider as a win an leave the casion table
+     * @param minBet       minimal bet at the casion table
+     * @return amount of money I end up with after using this betting strategy
      */
-    public static int martingale(int startAmount, int targetAmount){
+    public static int martingale(int startAmount, int targetAmount, int minBet) {
+        int totalBets = 0;
+        int money = startAmount;
+        int bet = minBet;
+        while (money > minBet) {
+            if (money >= targetAmount) {
+                break;
+            }
+            boolean win = play();
+            totalBets++;
+            if (win) {
+                //if we win we bet again with the same bet amount
+                money += bet;
+                //reset the bet to minimal bet at the casino table
+                bet = minBet;
+                System.out.println("You win :" + money);
+            } else {
+                money -= bet;
+                bet *= 2;
+                System.out.println("You loose and double the bet to : " + bet);
+            }
+        }
+        System.out.println("You've made " + totalBets + " bets at the casino. Is there a better way to invest your time?");
+        if(money < minBet) {
+            System.out.println("You've lost all your money and you don't have any fill the minimal bet at the casino table");
+        }else {
+            System.out.println("You took home " + (money - startAmount) + " profit from the casion though." );
+        }
+        return money;
+    }
 
+    private static boolean play() {
+        return Utils.randomBoolean();
     }
 }

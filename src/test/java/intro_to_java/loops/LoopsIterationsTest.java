@@ -27,4 +27,10 @@ class LoopsIterationsTest {
     void rollASix() {
         Assertions.assertTrue(LoopsIterations.rollASix());
     }
+
+    @Test
+    void martingale() {
+        Assertions.assertTrue(LoopsIterations.martingale(1000, 1200, 10) > 0);
+    }
+
 }
