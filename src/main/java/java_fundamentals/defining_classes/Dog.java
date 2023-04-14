@@ -60,5 +60,11 @@ public class Dog {
 
         // Print the dog's attributes
         System.out.println(myDog.toString());
+
+        //the dog checks the hotel
+        SingletonServer.getInstance().getHotelRooms();
+        if(SingletonServer.getInstance() == SingletonServer.getInstance() ){
+            System.out.println("Here we deal with the singleton class");
+        }
     }
 }
