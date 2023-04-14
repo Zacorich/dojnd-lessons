@@ -1,4 +1,4 @@
-package java_fundamentals;
+package java_fundamentals.java_basics;
 
 public class FirstClass {
     public static void main(String[] args) {

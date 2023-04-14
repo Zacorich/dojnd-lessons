@@ -1,4 +1,4 @@
-package java_fundamentals.code;
+package java_fundamentals.java_basics.code;
 
 /**
  * This is my first JavaDoc
