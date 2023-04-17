@@ -10,5 +10,7 @@ class MapExerciseTest {
     @Test
     void mapExerciseTestsSet() {
         Assertions.assertEquals("Mike", MapExercise.simpleHashMap().getFirstName());
+
+        MapExercise.hashMapExercise();
     }
 }
