@@ -3,14 +3,17 @@ package java_fundamentals.advanced_collections;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class MapExerciseTest {
+class AdvancedCollectionsExercisesTest {
 
     @Test
-    void mapExerciseTestsSet() {
+    void mapExerciseTest() {
         Assertions.assertEquals("Mike", MapExercise.simpleHashMap().getFirstName());
 
         MapExercise.hashMapExercise();
+    }
+
+    @Test
+    void setExerciseTest(){
+        SetsExercise.createASetFromTheList();
     }
 }
