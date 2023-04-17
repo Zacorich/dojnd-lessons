@@ -16,4 +16,9 @@ class AdvancedCollectionsExercisesTest {
     void setExerciseTest(){
         SetsExercise.createASetFromTheList();
     }
+
+    @Test
+    void queueExerciseTest(){
+        QueueExercise.queueExercise();
+    }
 }
