@@ -45,14 +45,20 @@ public final class LambdaMain {
         //3. As our Lambda has only one parameter we can get rid of the parentheses used to mark the parame
         // eventually we have simplified one line Lambda expression
         numberOfWhitespacesStrings = countMatchingStrings(input, s -> s.trim().isEmpty());
-
         System.out.println(numberOfWhitespacesStrings + " whitespaces strings(Lambda shortened)");
+
+        //using method references instead of defining new lambda
+        numberOfWhitespacesStrings = countMatchingStrings(input, String::isBlank);
+        System.out.println(numberOfWhitespacesStrings + " whitespaces strings(Lambda replaced with method reference call from class String)");
+
 
         //implementing an Interface method with a Lambda expression
         //Here we implement the abstract method 'R apply(T t, U u);' defined in BinaryOperator > BiFunction functional interface
         //extremely terse and handy way to implement functional interfaces
         BinaryOperator<Integer> add = (Integer a, Integer b) -> a+b;
         System.out.println(add.apply(1, 2));
+
+
 
 
 
