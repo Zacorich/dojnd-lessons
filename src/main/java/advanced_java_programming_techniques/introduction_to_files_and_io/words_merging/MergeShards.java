@@ -48,9 +48,13 @@ public final class MergeShards {
 
             try (Writer writer = Files.newBufferedWriter(outputPath)) {
                 while (!words.isEmpty()) {
+                    //poll() uses implicitly compareTo between WordEntry(s) to get next alphabetically sorted word
+                    //from the queue
                     WordEntry entry = words.poll();
+                    //write result of the first column of BufferedReader(s) comparison result into output file
                     writer.write(entry.word);
                     writer.write(System.lineSeparator());
+                    //increment to next word in the BufferedReader
                     String word = entry.reader.readLine();
                     if (word != null) {
                         words.add(new WordEntry(word, entry.reader));
