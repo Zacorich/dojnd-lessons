@@ -1,5 +1,7 @@
 package advanced_java_programming_techniques.introduction_to_files_and_io.words_merging;
 
+import advanced_java_programming_techniques.design_pattern.MultiFileReader;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -21,7 +23,9 @@ public final class MergeShards {
         }
 
         List<Path> inputs = Files.walk(Path.of(args[0]), 1).skip(1).collect(Collectors.toList());
-        List<BufferedReader> readers = new ArrayList<>(inputs.size());
+        if(inputs.size() == 0){
+            return;
+        }
         Path outputPath = Path.of(args[0]).resolve("..").resolve(args[1]).normalize();
 
         // TODO: Inside a try-finally block, create the List of BufferedReaders: one for each "input"
@@ -34,12 +38,13 @@ public final class MergeShards {
         //
         //       In the "finally" part of the try-finally block, make sure to close all the
         //       BufferedReaders.
-        try {
-            for (Path input : inputs) {
-                readers.add(Files.newBufferedReader(input));
-            }
+
+        // TODO: Replace this try-finally with a try-with-resources. The "try" statement should create
+        //       a MultiFileReader that is used in the "try" block to read from the files.
+
+        try(MultiFileReader multiFileReader = new MultiFileReader(inputs)){
             PriorityQueue<WordEntry> words = new PriorityQueue<>();
-            for (BufferedReader reader : readers) {
+            for (BufferedReader reader : multiFileReader.getReaders()) {
                 String word = reader.readLine();
                 if (word != null) {
                     words.add(new WordEntry(word, reader));
@@ -59,14 +64,6 @@ public final class MergeShards {
                     if (word != null) {
                         words.add(new WordEntry(word, entry.reader));
                     }
-                }
-            }
-        } finally {
-            for (BufferedReader reader : readers) {
-                try {
-                    reader.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
         }
