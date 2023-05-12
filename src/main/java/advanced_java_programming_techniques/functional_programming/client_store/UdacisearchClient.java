@@ -1,5 +1,8 @@
 package advanced_java_programming_techniques.functional_programming.client_store;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.beans.Transient;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;
@@ -18,14 +21,14 @@ public final class UdacisearchClient implements Serializable {
     private String billingAddress = "";
 
     public UdacisearchClient(
-            String name,
-            long id,
-            int quarterlyBudget,
-            int numEmployees,
-            Instant contractStart,
-            Duration contractLength,
-            List<ZoneId> timeZones,
-            String billingAddress) {
+            @JsonProperty("name") String name,
+            @JsonProperty("id") long id,
+            @JsonProperty("quarterlyBudget") int quarterlyBudget,
+            @JsonProperty("numEmployees") int numEmployees,
+            @JsonProperty("contractStart") Instant contractStart,
+            @JsonProperty("contractLength") Duration contractLength,
+            @JsonProperty("timeZones") List<ZoneId> timeZones,
+            @JsonProperty("billingAddress") String billingAddress) {
         this.name = name;
         this.id = id;
         this.quarterlyBudget = quarterlyBudget;
@@ -84,9 +87,11 @@ public final class UdacisearchClient implements Serializable {
         this.contractLength = contractLength;
     }
 
+    @Transient
     public Instant getContractEnd() {
         return getContractStart().plus(getContractLength());
     }
+
 
     public List<ZoneId> getTimeZones() {
         return timeZones;
