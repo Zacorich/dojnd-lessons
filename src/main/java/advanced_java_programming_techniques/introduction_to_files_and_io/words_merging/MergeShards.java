@@ -51,7 +51,7 @@ public final class MergeShards {
                     //poll() uses implicitly compareTo between WordEntry(s) to get next alphabetically sorted word
                     //from the queue
                     WordEntry entry = words.poll();
-                    //write result of the first column of BufferedReader(s) comparison result into output file
+                    //write result of the current column of BufferedReader(s) comparison result into output file
                     writer.write(entry.word);
                     writer.write(System.lineSeparator());
                     //increment to next word in the BufferedReader
