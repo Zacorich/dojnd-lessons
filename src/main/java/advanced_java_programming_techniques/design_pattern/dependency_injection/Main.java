@@ -13,10 +13,10 @@ public final class Main {
     public static void main(String[] args) {
         // TODO: Update this code to create a new Guice injector from the Guice module you filled in.
         //       Use Guice.createInjector(...) to do this.
-
+        Injector injector = Guice.createInjector(new ExpirationCheckerModule());
         // TODO: Instead of calling the ExpirationChecker constructor here, use the Guice injector to
         //       get an instance of the ExpirationChecker.
-        ExpirationChecker checker = new ExpirationChecker();
+        ExpirationChecker checker = injector.getInstance(ExpirationChecker.class);
 
         List<Path> paths = Arrays.stream(args).map(Path::of).collect(Collectors.toList());
 
