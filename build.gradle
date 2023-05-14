@@ -16,6 +16,20 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.0'
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.0'
+
+    //dependency injection exercise
+    // https://mvnrepository.com/artifact/com.google.inject/guice
+    implementation 'com.google.inject:guice:5.1.0'
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    implementation 'com.google.guava:guava:31.1-jre'
+    // https://mvnrepository.com/artifact/aopalliance/aopalliance
+    implementation 'aopalliance:aopalliance:1.0'
+    // https://mvnrepository.com/artifact/com.google.guava/failureaccess
+    implementation 'com.google.guava:failureaccess:1.0.1'
+    // https://mvnrepository.com/artifact/javax.inject/javax.inject
+    implementation 'javax.inject:javax.inject:1'
+
+
 }
 
 test {
