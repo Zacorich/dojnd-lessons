@@ -3,17 +3,26 @@ package advanced_java_programming_techniques.reflection.custom_classloader;
 import advanced_java_programming_techniques.reflection.custom_classloader.tests.CalculatorTest;
 
 import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class TestRunner {
-
-    // TODO: Delete this list!
-    private static final List<Class<?>> TESTS = List.of(CalculatorTest.class);
-
     public static void main(String[] args) throws Exception {
         // TODO: Make sure the user has passed in two arguments: one for the test directory, and one
         //       with the name of the test class to run.
+        if(args.length < 2){
+            System.out.println("Two arguments needed:");
+            System.out.println("1 - external test directory path");
+            System.out.println("2 - the name of the class in that directory to run");
+            return;
+        }
+        URL classesPath = Path.of(args[0]).toUri().toURL();
+        URL[] classesPaths = new URL[]{classesPath};
+        String testClassName = args[1];
+        URLClassLoader classLoader = new URLClassLoader(classesPaths);
 
         List<String> passed = new ArrayList<>();
         List<String> failed = new ArrayList<>();
@@ -24,25 +33,25 @@ public final class TestRunner {
         //       parameter.
         //
         //       The code to record passed/failed tests should pretty much stay the same.
-        for (Class<?> klass : TESTS) {
-            if (!UnitTest.class.isAssignableFrom(klass)) {
-                throw new IllegalArgumentException("Class " + klass.toString() + " must implement UnitTest");
-            }
+        Class<?> klass = Class.forName(testClassName, true, classLoader);
+        if (!UnitTest.class.isAssignableFrom(klass)) {
+            throw new IllegalArgumentException("Class " + klass.toString() + " must implement UnitTest");
+        }
 
-            for (Method method : klass.getDeclaredMethods()) {
-                if (method.getAnnotation(Test.class) != null) {
-                    try {
-                        UnitTest test = (UnitTest) klass.getConstructor().newInstance();
-                        test.beforeEachTest();
-                        method.invoke(test);
-                        test.afterEachTest();
-                        passed.add(getTestName(klass, method));
-                    } catch (Throwable throwable) {
-                        failed.add(getTestName(klass, method));
-                    }
+        for (Method method : klass.getDeclaredMethods()) {
+            if (method.getAnnotation(Test.class) != null) {
+                try {
+                    UnitTest test = (UnitTest) klass.getConstructor().newInstance();
+                    test.beforeEachTest();
+                    method.invoke(test);
+                    test.afterEachTest();
+                    passed.add(getTestName(klass, method));
+                } catch (Throwable throwable) {
+                    failed.add(getTestName(klass, method));
                 }
             }
         }
+
 
         System.out.println("Passed tests: " + passed);
         System.out.println("FAILED tests: " + failed);
