@@ -17,13 +17,17 @@ public final class CalculatorTest implements UnitTest {
     }
 
     @Test
-    public void testAddition() {
+    public void testAddition() throws AssertionError{
         assert calculator.calculate(1, "+", 1) == 2;
         System.out.println("test passed");
     }
 
     @Test
-    public void testSubtraction() {
-        assert calculator.calculate(45, "-", 43) == 2;
+    public void testSubtraction() throws AssertionError {
+        assert calculator.calculate(45, "-", 43) == 1;
+    }
+
+    public void testNotActuallyATest(){
+        assert 1 == 0;
     }
 }
