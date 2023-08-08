@@ -44,7 +44,8 @@ public final class TestRunner {
         // TODO: Create an ExecutorService using Executors.newFixedThreadPool(N), where N is the number
         //       of threads in the thread pool.
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);
-        ReentrantLock lock = new ReentrantLock();
+        ReentrantLock passedLock = new ReentrantLock();
+        ReentrantLock failedLock = new ReentrantLock();
         for (Method method : testMethods) {
 
             // TODO: Move this code to inside of a Runnable object, and pass it to the ExecutorService.
@@ -58,13 +59,13 @@ public final class TestRunner {
                     test.beforeEachTest();
                     method.invoke(test);
                     test.afterEachTest();
-                    lock.lock();
+                    passedLock.lock();
                     passed.add(getTestName(testClass, method));
-                    lock.unlock();
+                    passedLock.unlock();
                 } catch (Throwable throwable) {
-                    lock.lock();
+                    failedLock.lock();
                     failed.add(getTestName(testClass, method));
-                    lock.unlock();
+                    failedLock.unlock();
                 }
                 countDownLatch.countDown();
             });
