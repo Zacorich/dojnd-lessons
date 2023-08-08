@@ -6,6 +6,8 @@ import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 public final class SummarizeClients {
@@ -15,7 +17,7 @@ public final class SummarizeClients {
         int numClients = clients.size();
 
         // TODO: Create a ForkJoinPool to use as a thread pool.
-
+        ForkJoinPool pool = new ForkJoinPool();
         // TODO: For each metric below, turn it into a Future and submit it to the ForkJoinPool.
         int totalQuarterlySpend =
                 clients
