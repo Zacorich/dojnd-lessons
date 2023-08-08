@@ -12,6 +12,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.locks.ReentrantLock;
 
 public final class TestRunner {
     public static void main(String[] args) throws Exception {
@@ -38,10 +39,12 @@ public final class TestRunner {
         // TODO: Create a CountDownLatch to join the test threads at the end. There are other ways to
         //       wait for the threads to finish, but CountDownLatch is the easiest way in this case.
         //       Make sure you initialize it using the correct count!
+        CountDownLatch countDownLatch = new CountDownLatch(testMethods.size());
 
         // TODO: Create an ExecutorService using Executors.newFixedThreadPool(N), where N is the number
         //       of threads in the thread pool.
-
+        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);
+        ReentrantLock lock = new ReentrantLock();
         for (Method method : testMethods) {
 
             // TODO: Move this code to inside of a Runnable object, and pass it to the ExecutorService.
@@ -49,20 +52,29 @@ public final class TestRunner {
             //           executor.execute(() -> {
             //             // Run the test code here.
             //           });
-            try {
-                UnitTest test = (UnitTest) testClass.getConstructor().newInstance();
-                test.beforeEachTest();
-                method.invoke(test);
-                test.afterEachTest();
-                passed.add(getTestName(testClass, method));
-            } catch (Throwable throwable) {
-                failed.add(getTestName(testClass, method));
-            }
+            executor.execute(() -> {
+                try {
+                    UnitTest test = (UnitTest) testClass.getConstructor().newInstance();
+                    test.beforeEachTest();
+                    method.invoke(test);
+                    test.afterEachTest();
+                    lock.lock();
+                    passed.add(getTestName(testClass, method));
+                    lock.unlock();
+                } catch (Throwable throwable) {
+                    lock.lock();
+                    failed.add(getTestName(testClass, method));
+                    lock.unlock();
+                }
+                countDownLatch.countDown();
+            });
         }
+
 
         // Shut down the executor service (ExecutorService#shutdown()), and then wait for all the
         // threads to finish by calling CountDownLatch#await().
-
+        countDownLatch.await();
+        executor.shutdown();
         Duration executionTime = Duration.between(programStart, Instant.now());
 
         // This code should remain unchanged.
